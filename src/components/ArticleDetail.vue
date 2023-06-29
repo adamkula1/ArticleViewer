@@ -42,12 +42,6 @@
 						<p
 							class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white"
 						>
-							<!-- <img
-								class="mr-2 w-6 h-6 rounded-full"
-								src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-								:alt="comment.name"
-							/> -->
-
 							<svg
 								class="text-gray-400 mr-2 w-6 h-6 rounded-full"
 								fill="currentColor"
