@@ -2,7 +2,7 @@
 	<article class="w-fit m-auto">
 		<h1 class="text-3xl font-bold text-center my-4">Articles</h1>
 
-		<section class="flex gap-10 mb-5">
+		<section class="flex flex-wrap gap-10 mb-5 justify-center">
 			<div class="mb-4">
 				<label for="filterId" class="mr-2">Filter by ID:</label>
 				<input
@@ -26,7 +26,7 @@
 
 		<ul class="flex flex-wrap justify-center">
 			<li
-				class="p-6 mr-4 rounded bg-blue-900 w-80"
+				class="p-6 mr-4 mb-4 rounded bg-blue-900 w-80"
 				v-for="(article, index) in paginatedArticles"
 				:key="article.id"
 				@click="showArticleDetail(article.id)"
