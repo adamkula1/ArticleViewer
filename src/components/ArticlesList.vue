@@ -56,79 +56,59 @@
 	</article>
 </template>
 
-<script>
+<script setup>
 import { ref, computed } from "vue";
 import axios from "axios";
 import Pagination from "./Pagination.vue";
 
-export default {
-	name: "ArticlesList",
-	components: {
-		Pagination,
-	},
-	setup() {
-		const articles = ref([]);
-		const perPage = 5;
-		const currentPage = ref(1);
-		const filterId = ref("");
-		const filterTitle = ref("");
+const articles = ref([]);
+const perPage = 5;
+const currentPage = ref(1);
+const filterId = ref("");
+const filterTitle = ref("");
 
-		const fetchArticles = async () => {
-			try {
-				const response = await axios.get(
-					"https://jsonplaceholder.typicode.com/posts"
-				);
-				articles.value = response.data;
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		const filteredArticles = computed(() => {
-			let filtered = articles.value;
-
-			if (filterId.value) {
-				filtered = filtered.filter((article) =>
-					article.id.toString().includes(filterId.value)
-				);
-			}
-
-			if (filterTitle.value) {
-				filtered = filtered.filter((article) =>
-					article.title.toLowerCase().includes(filterTitle.value.toLowerCase())
-				);
-			}
-
-			return filtered;
-		});
-
-		const paginatedArticles = computed(() => {
-			const start = (currentPage.value - 1) * perPage;
-			const end = start + perPage;
-			return filteredArticles.value.slice(start, end);
-		});
-
-		const changePage = (page) => {
-			currentPage.value = page;
-		};
-
-		const showArticleDetail = (articleId) => {
-			// Do something when an article is clicked
-		};
-
-		fetchArticles();
-
-		return {
-			articles,
-			perPage,
-			currentPage,
-			filterId,
-			filterTitle,
-			filteredArticles,
-			paginatedArticles,
-			changePage,
-			showArticleDetail,
-		};
-	},
+const fetchArticles = async () => {
+	try {
+		const response = await axios.get(
+			"https://jsonplaceholder.typicode.com/posts"
+		);
+		articles.value = response.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
+
+const filteredArticles = computed(() => {
+	let filtered = articles.value;
+
+	if (filterId.value) {
+		filtered = filtered.filter((article) =>
+			article.id.toString().includes(filterId.value)
+		);
+	}
+
+	if (filterTitle.value) {
+		filtered = filtered.filter((article) =>
+			article.title.toLowerCase().includes(filterTitle.value.toLowerCase())
+		);
+	}
+
+	return filtered;
+});
+
+const paginatedArticles = computed(() => {
+	const start = (currentPage.value - 1) * perPage;
+	const end = start + perPage;
+	return filteredArticles.value.slice(start, end);
+});
+
+const changePage = (page) => {
+	currentPage.value = page;
+};
+
+const showArticleDetail = (articleId) => {
+	// Do something when an article is clicked
+};
+
+fetchArticles();
 </script>

@@ -5,6 +5,8 @@
 				<li>
 					<button
 						class="h-10 px-5 text-blue-600 bg-white rounded-l-lg hover:bg-green-100"
+						@click="changePage(currentPage - 1)"
+						:disabled="currentPage === 1"
 					>
 						<svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
 							<path
@@ -35,6 +37,8 @@
 				<li>
 					<button
 						class="h-10 px-5 text-blue-600 bg-white rounded-r-lg hover:bg-green-100"
+						@click="changePage(currentPage + 1)"
+						:disabled="currentPage === totalPages"
 					>
 						<svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
 							<path
@@ -50,37 +54,32 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: "Pagination",
-	props: {
-		totalItems: {
-			type: Number,
-			required: true,
-		},
-		perPage: {
-			type: Number,
-			required: true,
-		},
+<script setup>
+import { ref, computed, defineProps, defineEmits } from "vue";
+
+const props = defineProps({
+	totalItems: {
+		type: Number,
+		required: true,
 	},
-	computed: {
-		totalPages() {
-			return Math.ceil(this.totalItems / this.perPage);
-		},
-		currentPage: {
-			get() {
-				return parseInt(this.$route.query.page) || 1;
-			},
-			set(page) {
-				this.$router.push({ query: { ...this.$route.query, page } });
-			},
-		},
+	perPage: {
+		type: Number,
+		required: true,
 	},
-	methods: {
-		changePage(page) {
-			this.currentPage = page;
-			this.$emit("pageChanged", page);
-		},
-	},
-};
+});
+
+const currentPage = ref(1);
+
+const totalPages = computed(() => {
+	return Math.ceil(props.totalItems / props.perPage);
+});
+
+const emit = defineEmits(["pageChanged"]);
+
+function changePage(page) {
+	if (page >= 1 && page <= totalPages.value) {
+		currentPage.value = page;
+		emit("pageChanged", page);
+	}
+}
 </script>

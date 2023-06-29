@@ -127,50 +127,40 @@
 	</article>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 
-export default {
-	name: "ArticleDetail",
-	setup() {
-		const article = ref(null);
-		const comments = ref([]);
-		const router = useRouter();
+const article = ref(null);
+const comments = ref([]);
+const router = useRouter();
 
-		onMounted(() => {
-			const id = router.currentRoute.value.params.id;
-			fetchArticle(id);
-			fetchComments(id); // Načítať komentáre pre daný článok
-		});
+onMounted(() => {
+	const id = router.currentRoute.value.params.id;
+	fetchArticle(id);
+	fetchComments(id);
+});
 
-		const fetchArticle = async (id) => {
-			try {
-				const response = await axios.get(
-					`https://jsonplaceholder.typicode.com/posts/${id}`
-				);
-				article.value = response.data;
-			} catch (error) {
-				console.error(error);
-			}
-		};
+const fetchArticle = async (id) => {
+	try {
+		const response = await axios.get(
+			`https://jsonplaceholder.typicode.com/posts/${id}`
+		);
+		article.value = response.data;
+	} catch (error) {
+		console.error(error);
+	}
+};
 
-		const fetchComments = async (id) => {
-			try {
-				const response = await axios.get(
-					`https://jsonplaceholder.typicode.com/comments?postId=${id}`
-				);
-				comments.value = response.data;
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		return {
-			article,
-			comments,
-		};
-	},
+const fetchComments = async (id) => {
+	try {
+		const response = await axios.get(
+			`https://jsonplaceholder.typicode.com/comments?postId=${id}`
+		);
+		comments.value = response.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 </script>
